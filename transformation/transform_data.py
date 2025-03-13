@@ -1,12 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
-
-# Connexion PostgreSQL
-DB_HOST = "localhost"
-DB_PORT = "5432"
-DB_USER = "postgres"
-DB_PASSWORD = "temp123"
-DB_NAME = "db_client"
+from config import *
 
 engine = create_engine(f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 
@@ -22,11 +16,11 @@ try:
     # Fusionner transactions et taux de change
     df = df_transactions.merge(df_exchange_rates, left_on="currency", right_on="currency", how="left")
 
+    #************************************** reponse *************************
     # Ajouter la colonne catégorie
-    df["category"] = df["amount"].apply(lambda x: "Débit" if x < 0 else "Crédit")
 
     # Convertir le montant en EUR
-    df["amount_eur"] = df["amount"] / df["rate"]
+    # ***********************************************************************
 
     # Sélectionner uniquement les colonnes nécessaires
     df = df[["transaction_id", "client_id", "amount_eur", "category", "transaction_date"]]

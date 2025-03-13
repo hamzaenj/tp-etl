@@ -1,22 +1,12 @@
 import pandas as pd
 from sqlalchemy import create_engine
-
-# Connexion PostgreSQL
-DB_HOST = "localhost"
-DB_PORT = "5432"
-DB_USER = "postgres"
-DB_PASSWORD = "temp123"
-DB_NAME = "db_client"
+from config import *
 
 engine = create_engine(f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
 
 try:
     # Récupérer uniquement les transactions récentes
-    query = """
-    SELECT transaction_id, client_id, amount_eur, category, transaction_date 
-    FROM transactions.transformed_transactions
-    WHERE transaction_id NOT IN (SELECT transaction_id FROM transactions.final_transactions);
-    """
+    query = """ """
 
     df = pd.read_sql(query, engine)
 
